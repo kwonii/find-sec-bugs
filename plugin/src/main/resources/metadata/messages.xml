@@ -5664,6 +5664,56 @@ Sanitize user input before using it in HTTP parameters.
     </BugPattern>
     <BugCode abbrev="SECHPP">HTTP Parameter Pollution</BugCode>
 
+    <!-- File Permission Detector made by kwonii -->
+    <Detector class="com.h3xstream.findsecbugs.file.FilePermissionDetector">
+        <Details>Detect the improper file permission when the file uploaded.
+        </Details>
+    </Detector>
+
+    <BugPattern type="IMPROPER_FILEUPLOAD">
+        <ShortDescription>Improper File Permission of uploaded file</ShortDescription>
+        <LongDescription>Uploaded File couldn't be executable, writable and only be readable</LongDescription>
+        <Details>
+            <![CDATA[
+<p>A new file is created with the <code>setWritable and setExecutable</code> methods.
+The <code>setWritable and setExecutable</code> methods are used to set permissions on the file.
+</p>
+
+<p>
+<b>Code at risk:</b><br/>
+<pre>
+File ufile = new File("path");
+ufile.setWritable(true, true);
+ufile.setExecutable(true, true);
+ufile.setReadable(true, true); // optional
+mFile.transferTo(ufile);
+</pre>
+</p>
+
+<p>
+<b>Solution (Specific configuration):</b><br/>
+<pre>
+File ufile = new File("path");
+ufile.setWritable(<b>false, false</b>);
+ufile.setExecutable(<b>false, false</b>);
+ufile.setReadable(true, true); // optional
+mFile.transferTo(ufile);
+</pre>
+</p>
+<br/>
+
+<p>
+<b>Reference</b><br/>
+<a href="https://cwe.mitre.org/data/definitions/281.html">CWE-281: Improper Preservation of Permissions</a><br/>
+<a href="https://www.owasp.org/index.php/Test_File_Permission_(OTG-CONFIG-009)">Test File Permission (OTG-CONFIG-009)</a><br/>
+</p>
+]]>
+
+        </Details>
+    </BugPattern>
+    <BugCode abbrev="IMFILEUP">Improper File Upload Permission</BugCode>
+
+
 
     <Detector class="com.h3xstream.findsecbugs.PotentialValueDetector">
         <Details>Help other detector at finding hardcoded value used if a dynamic parameter is null.</Details>
