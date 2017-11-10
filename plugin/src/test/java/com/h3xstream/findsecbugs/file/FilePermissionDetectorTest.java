@@ -42,7 +42,7 @@ public class FilePermissionDetectorTest extends BaseDetectorTest {
         analyze(files, reporter);
 
 
-        for(Integer line : Arrays.asList(22,24)) {
+        for(Integer line : Arrays.asList(21,23)) {
             verify(reporter).doReportBug(
                     bugDefinition()
                             .bugType("IMPROPER_FILEUPLOAD")
